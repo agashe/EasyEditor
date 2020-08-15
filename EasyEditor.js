@@ -217,24 +217,11 @@
 	
 	/**
 	 *ToDo:
-	 *function ee_copy(){}
-	 *function ee_cut(){}
-	 *function ee_paste(){}
-	 *
-	 *function ee_save(){}
-	 *function ee_del(){}
-	 *function ee_all(){}
-	 *function ee_find(){}
-	 *
-	 *function ee_undo(){}
-	 *function ee_redo(){}
-	 *
 	 *function ee_list(){}
 	 *function ee_link(){}
 	 *function ee_quote(){}
 	 *function ee_image(){}
 	 *function ee_code(){}
-	 *function ee_file(){}
 	 *function ee_emoji(){}
 	 */
 	 
