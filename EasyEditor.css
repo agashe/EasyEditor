@@ -1,0 +1,68 @@
+/**
+ *EasyEditor v1.00
+ *
+ *@author Mohamed Yousef <engineer.mohamed.yossef@gmail.com>
+ *@license ""
+ *@copyright 2017 AGASHE
+ */
+
+.ee-frame{
+	height: 22px;
+	border: 1px solid #000;
+	margin: 0;
+	padding: 5px;
+}
+.ee-frame ul{
+	height: 15px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ee-frame ul li{
+	height: 12px;
+	width: 15px;
+	padding: 5px;
+	float: left;
+	border-radius: 3px;
+	text-align: center; 
+	font-size: 9pt;
+	font-weight: bold;
+	cursor: pointer;
+}
+.ee-frame ul li:not(.ee-fpanel ul li):hover{
+	background-color: lightgray;
+}
+
+.ee-fpanel{
+	height: 110px;
+	width: 80px;
+	padding: 5px;
+	border: 1px solid #000;
+	background-color: #000;
+	position: absolute;
+	top: 40px;
+	left: 170px;
+}
+.ee-fpanel ul{
+	height: 15px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.ee-fpanel ul li{
+	height: 12px;
+	width: 15px;
+	margin-bottom: 5px;
+	padding: 5px;
+	float: none;
+	text-align: center; 
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+.ee-textbox{
+	border: 1px solid #000;
+	margin: 0;
+	padding: 5px;
+	resize: none;
+}
