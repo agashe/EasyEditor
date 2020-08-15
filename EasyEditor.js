@@ -1,15 +1,14 @@
 /**
- *EasyEditor v1.00
+ *EasyEditor v2.0.0
  *
  *@author Mohamed Yousef <engineer.mohamed.yossef@gmail.com>
- *@license ""
- *@copyright 2017 AGASHE
+ *@license MIT
+ *@copyright 2020 AGASHE
  */
 
 /**
  *Note:Make sure that you included these files inside your html file:
  *-jquery library <v1.10.0 or later>
- *-font awesome <v3 or later>
  *-easyeditor.css
  */
 
@@ -33,15 +32,15 @@
 		/*Define frame body.*/
 		var ee_frame_body = "<div class='ee-frame' id='"+ee_frame_id+"'><ul>";
 			
-			ee_frame_body += "<li class='icon icon-bold' title='Bold' id='ee-bold'></li>";	
-			ee_frame_body += "<li class='icon icon-italic' title='Italic' id='ee-italic'></li>";	
-			ee_frame_body += "<li class='icon icon-underline' title='Underline' id='ee-underline' style='margin-right:10px;'></li>";			
+			ee_frame_body += "<li title='Bold' id='ee-bold'>B</li>";	
+			ee_frame_body += "<li title='Italic' id='ee-italic'>I</li>";	
+			ee_frame_body += "<li title='Underline' id='ee-underline' style='margin-right:10px;'>U</li>";			
 			
-			ee_frame_body += "<li class='icon icon-align-left' title='Align left' id='ee-left'></li>";	
-			ee_frame_body += "<li class='icon icon-align-center' title='Align center ' id='ee-center'></li>";	
-			ee_frame_body += "<li class='icon icon-align-right' title='Align right' id='ee-right' style='margin-right:10px;'></li>";
+			ee_frame_body += "<li title='Align left' id='ee-left'>L</li>";	
+			ee_frame_body += "<li title='Align center ' id='ee-center'>C</li>";	
+			ee_frame_body += "<li title='Align right' id='ee-right' style='margin-right:10px;'>R</li>";
 
-			ee_frame_body += "<li class='icon icon-font' title='Font' id='ee-font'></li>";	
+			ee_frame_body += "<li title='Font' id='ee-font'>A</li>";	
 
 			ee_frame_body += "</ul></div>";
 
