@@ -27,6 +27,7 @@
 	 */
 	function ee_init(ee_textbox){
 		/*Define ftrame id. or class!*/
+		var ee_text_id  = 'ee-t-'+ee_textbox.attr("id");
 		var ee_frame_id = 'ee-f-'+ee_textbox.attr("id");
 
 		/*Define frame body.*/
@@ -44,10 +45,14 @@
 
 			ee_frame_body += "</ul></div>";
 
+			ee_frame_body += "<div class='ee-textbox' id='"+ee_text_id+"' contenteditable='true'></div>";
+
 		/*Add the frame to textarea.*/
 		ee_textbox.before(ee_frame_body);
 		$('#'+ee_frame_id).width(ee_textbox.width());
-		ee_textbox.addClass("ee-textbox");
+		$('#'+ee_text_id).width(ee_textbox.width());
+		$('#'+ee_text_id).height(ee_textbox.height());
+		ee_textbox.css('display', 'none');
 	}
 	
 	/**
@@ -110,6 +115,11 @@
 		var ee_selected_text = "";
 		var ee_start, ee_end;
 		
+		// update the textarea value
+		$(document).on('keyup', '.ee-textbox', function(){
+			$(ee_textbox).html($(this).html());
+		});
+
 		/*Get the highlighted text and it's position.*/
 		$(ee_textbox).select(function(){
 			prop = ee_get_text(this);
@@ -224,11 +234,11 @@
 	 *function ee_code(){}
 	 *function ee_emoji(){}
 	 */
-	 
-	/*==-Main Function-==*/
+
+	 /*==-Main Function-==*/
 	$.fn.EasyEditor = function(){
 		ee_init(this);
 		ee_event_handler(this);
 		return this;
-	};	
+	};
 }(jQuery));
