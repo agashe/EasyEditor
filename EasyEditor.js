@@ -56,34 +56,12 @@
 	}
 	
 	/**
-	 *Get selected text.
-	 *
-	 *Becuase each browser handles the selection of text by diffferent 
-	 *way, each way was set to make the plugin compitable with all major
-	 *brwosers.
-	 */
-	function ee_get_text(ee_textbox){
-		/**
-		 *ToDo: Add suitable code for each browser.
-		 */
-		 
-		/*Hold text properties.*/
-		var prop = [];
-		
-		prop["text_start"] = ee_textbox.selectionStart;
-		prop["text_end"] = ee_textbox.selectionEnd;
-		prop["text_value"] = ee_textbox.value.substring(ee_textbox.selectionStart, ee_textbox.selectionEnd);
-		
-		return prop;
-	}
-	
-	/**
 	 *Text replacement for specific range.
 	 *
 	 *Source: https://stackoverflow.com/questions/14880229
 	 */
 	String.prototype.replaceBetween = function(start, end, what) {
-		return this.substring(0, start) + what + this.substring(end);
+		return this.substring(0, start) + what + this.substring(end+1);
 	};
 	
 	/**
@@ -111,21 +89,42 @@
 		 *Hold the Selected text properties,
 		 *text start and end positions.
 		 */
-		var prop = [];
-		var ee_selected_text = "";
 		var ee_start, ee_end;
+		var textbox_text = "";
+		var ee_selected_text = "";
+		var ee_container = '#ee-t-'+ee_textbox.attr("id");
 		
-		// update the textarea value
-		$(document).on('keyup', '.ee-textbox', function(){
-			$(ee_textbox).html($(this).html());
+		/* update the textarea value depending on the editable div container! */
+		$(document).on('keyup', ee_container, function(){
+			$(ee_textbox).html('')
+			textbox_text = $(this).html().replaceAll('<div>', '').replaceAll('</div>', '<br>');
+			$(ee_textbox).html(textbox_text);
 		});
 
 		/*Get the highlighted text and it's position.*/
-		$(ee_textbox).select(function(){
-			prop = ee_get_text(this);
-			ee_selected_text = prop["text_value"];
-			ee_start = prop["text_start"];
-			ee_end = prop["text_end"];
+		// Original at: https://stackoverflow.com/questions/4811822
+		$(ee_container).click(function(){
+			var range = "";
+			var selected = "";
+			var caret_range = "";
+			var caret_offset = "";
+			if (window.getSelection().toString() !== '') {
+				range = window.getSelection().getRangeAt(0);
+				selected = range.toString().length;
+				caret_range = range.cloneRange();
+				caret_range.selectNodeContents(this);
+				caret_range.setEnd(range.endContainer, range.endOffset);
+
+				if (selected) {
+					caret_offset = caret_range.toString().length - selected;
+				} else {
+					caret_offset = caret_range.toString().length;
+				}
+			}
+
+			ee_selected_text = window.getSelection().toString();
+			ee_end = caret_offset + (ee_selected_text.length - 1);
+			ee_start = caret_offset;
 		});
 		
 		//bold, italic and underline.
@@ -133,6 +132,9 @@
 			if(ee_selected_text != "" && ee_selected_text != null){
 				ee_bold(ee_selected_text, ee_start, ee_end, ee_textbox);
 				ee_selected_text = "";
+				// refresh function
+				$(ee_container).html('');
+				$(ee_container).html(ee_textbox.val());
 			}
 		});
 		$("#ee-italic").click(function(){
@@ -177,7 +179,7 @@
 			}
 		});
 		$(ee_textbox).click(function(){
-				$(".ee-fpanel").remove();
+			$(".ee-fpanel").remove();
 		});
 		
 		//because we can't access new elements with just click
@@ -193,11 +195,13 @@
 	function ee_bold(text, start, end, ee_textbox){
 		pattern = "<b>" + text + "</b>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+		console.log(ee_textbox.val());
 	}
 	
 	function ee_italic(text, start, end, ee_textbox){
 		pattern = "<i>" + text + "</i>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+		console.log(ee_textbox.val());
 	}
 	function ee_underline(text, start, end, ee_textbox){
 		var pattern = "<u>" + text + "</u>";
