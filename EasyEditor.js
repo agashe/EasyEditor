@@ -45,14 +45,15 @@
 
 			ee_frame_body += "</ul></div>";
 
-			ee_frame_body += "<div class='ee-textbox' id='"+ee_text_id+"' contenteditable='true'></div>";
+			ee_frame_body += "<div class='ee-textbox' id='"+ee_text_id+"'></div>";
 
 		/*Add the frame to textarea.*/
+		ee_textbox.addClass('ee-textbox');
 		ee_textbox.before(ee_frame_body);
 		$('#'+ee_frame_id).width(ee_textbox.width());
 		$('#'+ee_text_id).width(ee_textbox.width());
-		$('#'+ee_text_id).height(ee_textbox.height());
-		ee_textbox.css('display', 'none');
+		$('#'+ee_text_id).height((ee_textbox.height() / 2));
+		ee_textbox.height((ee_textbox.height() / 2));
 	}
 	
 	/**
