@@ -102,6 +102,11 @@
 		var ee_selected_text = "";
 		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
+		/*Update the preview window*/
+		$(ee_textbox).keyup(function(){
+			ee_refresh(ee_preview_panel, ee_textbox.val());
+		});
+
 		/*Get the highlighted text and it's position.*/
 		$(ee_textbox).select(function(){
 			ee_start = this.selectionStart;
@@ -111,48 +116,53 @@
 		
 		//bold, italic and underline.
 		$("#ee-bold").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_bold(ee_selected_text, ee_start, ee_end, ee_textbox);
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		$("#ee-italic").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_italic(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		$("#ee-underline").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_underline(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		
 		//font alignment.
 		$("#ee-left").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "left");
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		$("#ee-center").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "center");
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		$("#ee-right").click(function(){
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "right");
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
 		
 		//font.
 		$("#ee-font").click(function(){
-			if( $(".ee-fpanel").length > 0){
+			if ( $(".ee-fpanel").length > 0) {
 				$(".ee-fpanel").remove();
 			}else{
 				ee_font_panel(this);
@@ -164,8 +174,9 @@
 		
 		//because we can't access new elements with just click
 		$(document).on('click',  'button#ee-font-ok', (function() {
-			if(ee_selected_text != "" && ee_selected_text != null){
+			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_font(ee_selected_text, ee_start, ee_end, ee_textbox, $("#ee-font-family").val(), $("#ee-font-color").val(), $("#ee-font-size").val());
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		}));
@@ -173,12 +184,12 @@
 		
 	/*==-Effects!-==*/
 	function ee_bold(text, start, end, ee_textbox){
-		pattern = "<b>" + text + "</b>";
+		var pattern = "<b>" + text + "</b>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
 	function ee_italic(text, start, end, ee_textbox){
-		pattern = "<i>" + text + "</i>";
+		var pattern = "<i>" + text + "</i>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	function ee_underline(text, start, end, ee_textbox){
@@ -188,7 +199,7 @@
 	
 	function ee_align(text, start, end, ee_textbox, direction){
 		var pattern = "";
-		switch(direction){
+		switch (direction) {
 			case "left":
 				var pattern = "<p style='text-align:left;'>" + text + "</p>";
 			break;
@@ -203,7 +214,7 @@
 	}
 	
 	function ee_font(text, start, end, ee_textbox, family, color, size){
-		var pattern = "<p style='font-family:"+family+";color:"+color+";font-size:"+size+"pt;'>" + text + "</p>";
+		var pattern = "<span style='font-family:"+family+";color:"+color+";font-size:"+size+"pt;'>" + text + "</span>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
