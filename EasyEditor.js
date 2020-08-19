@@ -62,7 +62,7 @@
 	 *Source: https://stackoverflow.com/questions/14880229
 	 */
 	String.prototype.replaceBetween = function(start, end, what) {
-		return this.substring(0, start) + what + this.substring(end+1);
+		return this.substring(0, start) + what + this.substring(end);
 	};
 	
 	/**
@@ -81,6 +81,14 @@
 
 		$(ee_button).after(ee_fpanel_body);
 	}
+
+	/**
+	 *Refresh the preview panel.
+	 */
+	function ee_refresh(ee_container, content){
+		$(ee_container).html('');
+		$(ee_container).html(content);
+	}
 	
 	/**
 	 *Handle user input, take actions.
@@ -91,51 +99,22 @@
 		 *text start and end positions.
 		 */
 		var ee_start, ee_end;
-		var textbox_text = "";
 		var ee_selected_text = "";
-		var ee_container = '#ee-t-'+ee_textbox.attr("id");
+		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
-		/* update the textarea value depending on the editable div container! */
-		$(document).on('keyup', ee_container, function(){
-			$(ee_textbox).html('')
-			textbox_text = $(this).html().replaceAll('<div>', '').replaceAll('</div>', '<br>');
-			$(ee_textbox).html(textbox_text);
-		});
-
 		/*Get the highlighted text and it's position.*/
-		// Original at: https://stackoverflow.com/questions/4811822
-		$(ee_container).click(function(){
-			var range = "";
-			var selected = "";
-			var caret_range = "";
-			var caret_offset = "";
-			if (window.getSelection().toString() !== '') {
-				range = window.getSelection().getRangeAt(0);
-				selected = range.toString().length;
-				caret_range = range.cloneRange();
-				caret_range.selectNodeContents(this);
-				caret_range.setEnd(range.endContainer, range.endOffset);
-
-				if (selected) {
-					caret_offset = caret_range.toString().length - selected;
-				} else {
-					caret_offset = caret_range.toString().length;
-				}
-			}
-
-			ee_selected_text = window.getSelection().toString();
-			ee_end = caret_offset + (ee_selected_text.length - 1);
-			ee_start = caret_offset;
+		$(ee_textbox).select(function(){
+			ee_start = this.selectionStart;
+			ee_end = this.selectionEnd;
+			ee_selected_text = this.value.substring(ee_start, ee_end);
 		});
 		
 		//bold, italic and underline.
 		$("#ee-bold").click(function(){
 			if(ee_selected_text != "" && ee_selected_text != null){
 				ee_bold(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
-				// refresh function
-				$(ee_container).html('');
-				$(ee_container).html(ee_textbox.val());
 			}
 		});
 		$("#ee-italic").click(function(){
@@ -196,13 +175,11 @@
 	function ee_bold(text, start, end, ee_textbox){
 		pattern = "<b>" + text + "</b>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
-		console.log(ee_textbox.val());
 	}
 	
 	function ee_italic(text, start, end, ee_textbox){
 		pattern = "<i>" + text + "</i>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
-		console.log(ee_textbox.val());
 	}
 	function ee_underline(text, start, end, ee_textbox){
 		var pattern = "<u>" + text + "</u>";
