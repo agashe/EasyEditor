@@ -33,19 +33,19 @@
 		/*Define frame body.*/
 		var ee_frame_body = "<div class='ee-frame' id='"+ee_frame_id+"'><ul>";
 			
-			ee_frame_body += "<li title='Bold' id='ee-bold'>B</li>";	
-			ee_frame_body += "<li title='Italic' id='ee-italic'>I</li>";	
-			ee_frame_body += "<li title='Underline' id='ee-underline' style='margin-right:10px;'>U</li>";			
+			ee_frame_body += "<li title='Bold' id='ee-bold'><b>B</b></li>";	
+			ee_frame_body += "<li title='Italic' id='ee-italic'><i>I</i></li>";	
+			ee_frame_body += "<li title='Underline' id='ee-underline' style='margin-right:10px;'><u>U</u></li>";			
 			
-			ee_frame_body += "<li title='Align left' id='ee-left'>L</li>";	
-			ee_frame_body += "<li title='Align center ' id='ee-center'>C</li>";	
-			ee_frame_body += "<li title='Align right' id='ee-right' style='margin-right:10px;'>R</li>";
+			ee_frame_body += "<li title='Align left' id='ee-left'> << </li>";	
+			ee_frame_body += "<li title='Align center ' id='ee-center'> ||| </li>";	
+			ee_frame_body += "<li title='Align right' id='ee-right' style='margin-right:10px;'> >> </li>";
 
 			ee_frame_body += "<li title='Font' id='ee-font'>A</li>";	
 
 			ee_frame_body += "</ul></div>";
 
-			ee_frame_body += "<div class='ee-textbox' id='"+ee_text_id+"'></div>";
+			ee_frame_body += "<div class='ee-preview' id='"+ee_text_id+"' title='Preview Window'></div>";
 
 		/*Add the frame to textarea.*/
 		ee_textbox.addClass('ee-textbox');
@@ -94,16 +94,15 @@
 	 *Handle user input, take actions.
 	 */
 	function ee_event_handler(ee_textbox){
-		/**
-		 *Hold the Selected text properties,
-		 *text start and end positions.
-		 */
 		var ee_start, ee_end;
 		var ee_selected_text = "";
 		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
 		/*Update the preview window*/
-		$(ee_textbox).keyup(function(){
+		$(ee_textbox).keyup(function(e){
+			if (e.key === 'Enter' || e.keyCode === 13) {
+				ee_textbox.val(ee_textbox.val() + '<br>');
+			}
 			ee_refresh(ee_preview_panel, ee_textbox.val());
 		});
 
