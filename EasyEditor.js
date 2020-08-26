@@ -69,15 +69,45 @@
 	 *Add font panel, to modify : font family, color and size.
 	 */
 	function ee_font_panel(ee_button){
+		//different font properties
+		var fonts  = ['Tahoma', 'Calibri', 'Times New Roman', 'Arial', 'Aharoni',
+			'Bodoni MT', 'Dotum', 'MS Outlook', 'Consolas', 'Gill Sans MT',
+			'Vladimir Script', 'Gigi', 'Elephant', 'Fira Code', 'Magneto'];
+		var colors = ['Black', 'Red', 'Blue', 
+			'Green', 'Yellow', 'Orange', 
+			'Brown', 'Pink', 'Gray', 
+			'SkyBlue', 'LimeGreen', 'SlateGray'];
+		var sizes  = [10, 11, 12, 14, 16, 18, 22, 24, 28, 32, 40, 60];
+		
+		var fpanel_fonts  = '';
+		var fpanel_colors = '';
+		var fpanel_sizes  = '';
+		
+		fonts.forEach(function(font){
+			fpanel_fonts = fpanel_fonts + "<option>" + font + "</option>";
+		});
+		colors.forEach(function(color){
+			fpanel_colors = fpanel_colors + "<option>" + color + "</option>";
+		});
+		sizes.forEach(function(size){
+			fpanel_sizes = fpanel_sizes + "<option>" + size + "pt</option>";
+		});
+
 		/*Define font panel body.*/
-		var ee_fpanel_body = "<div class='ee-fpanel'><ul>";
-			
-			ee_fpanel_body += "<li><select id='ee-font-family' title='Font Family'><option>Tahoma</option><option>Gigi</option></select></li>";	
-			ee_fpanel_body += "<li><select id='ee-font-size' title='Font Size'><option>10</option><option>12</option><option>14</option></select></li>";	
-			ee_fpanel_body += "<li><select id='ee-font-color' title='Font Color'><option>black</option><option>blue</option><option>red</option></select></li>";			
-			ee_fpanel_body += "<li><button id='ee-font-ok'>ok</button></li>";						
-			
-			ee_fpanel_body += "</ul></div>";
+		var ee_fpanel_body = "\
+			<div class='ee-fpanel'>\
+				<select id='ee-font-family' title='Font Family'>\
+					" + fpanel_fonts + "\
+				</select>\
+				<select id='ee-font-size' title='Font Size'>\
+					" + fpanel_sizes + "\
+				</select>\
+				<select id='ee-font-color' title='Font Color'>\
+					" + fpanel_colors + "\
+				</select>\
+				<button id='ee-font-ok'>Apply</button>\
+			</div>\
+		";
 
 		$(ee_button).after(ee_fpanel_body);
 	}
@@ -216,7 +246,7 @@
 	}
 	
 	function ee_font(text, start, end, ee_textbox, family, color, size){
-		var pattern = "<span style='font-family:"+family+";color:"+color+";font-size:"+size+"pt;'>" + text + "</span>";
+		var pattern = "<span style='font-family:"+family+";color:"+color+";font-size:"+size+";'>" + text + "</span>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
