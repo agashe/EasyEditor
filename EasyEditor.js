@@ -136,7 +136,7 @@
 			}
 		});
 		
-		//font alignment.
+		//text alignment.
 		$("#ee-left").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "left");
@@ -168,6 +168,9 @@
 			}
 		});
 		$(ee_textbox).click(function(){
+			$(".ee-fpanel").remove();
+		});
+		$(ee_preview_panel).click(function(){
 			$(".ee-fpanel").remove();
 		});
 		
