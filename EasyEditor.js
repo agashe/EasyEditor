@@ -47,6 +47,13 @@
 
 			ee_frame_body += "<div class='ee-preview' id='"+ee_text_id+"' title='Preview Window'></div>";
 
+		/*Validate the textarea height and width*/
+		if (ee_textbox.height() < 300)
+			ee_textbox.height(300);
+		
+			if (ee_textbox.width() < 500)
+			ee_textbox.width(500);
+		
 		/*Add the frame to textarea.*/
 		ee_textbox.addClass('ee-textbox');
 		ee_textbox.before(ee_frame_body);
