@@ -26,6 +26,10 @@
 	 *with meny textarea, and to prevent conflict between them.
 	 */
 	function ee_init(ee_textbox){
+		/*Add the required icons*/
+		/*EasyEditor use icons from css.gg<https://css.gg | https://github.com/astrit/css.gg> */
+		$('head').append("<link href='https://css.gg/css?=format-left|format-center|format-right|format-color|format-bold|format-italic|format-underline' rel='stylesheet'>");
+		
 		/*Define ftrame id. or class!*/
 		var ee_text_id  = 'ee-t-'+ee_textbox.attr("id");
 		var ee_frame_id = 'ee-f-'+ee_textbox.attr("id");
@@ -33,15 +37,15 @@
 		/*Define frame body.*/
 		var ee_frame_body = "<div class='ee-frame' id='"+ee_frame_id+"'><ul>";
 			
-			ee_frame_body += "<li title='Bold' id='ee-bold'><b>B</b></li>";	
-			ee_frame_body += "<li title='Italic' id='ee-italic'><i>I</i></li>";	
-			ee_frame_body += "<li title='Underline' id='ee-underline' style='margin-right:10px;'><u>U</u></li>";			
+			ee_frame_body += "<li title='Bold' id='ee-bold'><i class='gg-format-bold'></i></li>";	
+			ee_frame_body += "<li title='Italic' id='ee-italic'><i class='gg-format-italic'></i></li>";	
+			ee_frame_body += "<li title='Underline' id='ee-underline' class='right-space'><i class='gg-format-underline'></i></li>";			
 			
-			ee_frame_body += "<li title='Align left' id='ee-left'> << </li>";	
-			ee_frame_body += "<li title='Align center ' id='ee-center'> ||| </li>";	
-			ee_frame_body += "<li title='Align right' id='ee-right' style='margin-right:10px;'> >> </li>";
+			ee_frame_body += "<li title='Align left' id='ee-left' class='adjust-button'><i class='gg-format-left'></i></li>";	
+			ee_frame_body += "<li title='Align center ' id='ee-center' class='adjust-button'><i class='gg-format-center'></i></li>";	
+			ee_frame_body += "<li title='Align right' id='ee-right' class='right-space adjust-button'><i class='gg-format-right'></i></li>";
 
-			ee_frame_body += "<li title='Font' id='ee-font'>A</li>";	
+			ee_frame_body += "<li title='Font' id='ee-font' class='adjust-font-button'><i class='gg-format-color'></i></li>";	
 
 			ee_frame_body += "</ul></div>";
 

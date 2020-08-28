@@ -28,6 +28,17 @@
 	font-size: 11pt;
 	cursor: pointer;
 }
+.ee-frame .right-space {
+	margin-right: 20px;
+}
+.ee-frame .adjust-button {
+	margin-top: 10px;
+	padding-bottom: 0;
+}
+.ee-frame .adjust-font-button {
+	margin-top: 5px;
+	padding-bottom: 0;
+}
 
 .ee-fpanel {
 	height: 130px;
