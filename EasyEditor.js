@@ -140,7 +140,7 @@
 		var ee_frame = '#ee-f-'+ee_textbox.attr("id");
 		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
-		/*Update the preview window*/
+		/*Update the preview window and its scroll!!*/
 		$(document).ready(function(){
 			if (ee_textbox.val() != '') {
 				ee_refresh(ee_preview_panel, ee_textbox.val());
@@ -148,10 +148,19 @@
 		});
 
 		$(ee_textbox).keyup(function(e){
-			if (e.key === 'Enter' || e.keyCode === 13) {
-				ee_textbox.val(ee_textbox.val() + '<br>');
-			}
 			ee_refresh(ee_preview_panel, ee_textbox.val());
+			
+			if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+				$(ee_preview_panel).scrollTop(1000000);
+			}
+		});
+
+		$(ee_textbox).scroll(function () {
+			if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+				$(ee_preview_panel).scrollTop(1000000);
+			} else {
+				$(ee_preview_panel).scrollTop($(this).scrollTop());
+			}
 		});
 
 		/*Get the highlighted text and it's position.*/
