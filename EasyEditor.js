@@ -141,6 +141,12 @@
 		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
 		/*Update the preview window*/
+		$(document).ready(function(){
+			if (ee_textbox.val() != '') {
+				ee_refresh(ee_preview_panel, ee_textbox.val());
+			}
+		});
+
 		$(ee_textbox).keyup(function(e){
 			if (e.key === 'Enter' || e.keyCode === 13) {
 				ee_textbox.val(ee_textbox.val() + '<br>');
