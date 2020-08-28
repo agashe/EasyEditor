@@ -20,7 +20,7 @@
 	 *
 	 *Add Div and list of buttons.
 	 *Generate id for the frame(div).
-	 *Set the width of the frame.
+	 *Set the width and hight of the frame.
 	 *
 	 *The generated id is used to allow the user to use the plugin
 	 *with meny textarea, and to prevent conflict between them.
@@ -133,6 +133,7 @@
 	function ee_event_handler(ee_textbox){
 		var ee_start, ee_end;
 		var ee_selected_text = "";
+		var ee_frame = '#ee-f-'+ee_textbox.attr("id");
 		var ee_preview_panel  = '#ee-t-'+ee_textbox.attr("id");
 		
 		/*Update the preview window*/
@@ -151,21 +152,21 @@
 		});
 		
 		//bold, italic and underline.
-		$("#ee-bold").click(function(){
+		$(ee_frame + " #ee-bold").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_bold(ee_selected_text, ee_start, ee_end, ee_textbox);
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
-		$("#ee-italic").click(function(){
+		$(ee_frame + " #ee-italic").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_italic(ee_selected_text, ee_start, ee_end, ee_textbox);
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
-		$("#ee-underline").click(function(){
+		$(ee_frame + " #ee-underline").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_underline(ee_selected_text, ee_start, ee_end, ee_textbox);
 				ee_refresh(ee_preview_panel, ee_textbox.val());
@@ -174,21 +175,21 @@
 		});
 		
 		//text alignment.
-		$("#ee-left").click(function(){
+		$(ee_frame + " #ee-left").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "left");
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
-		$("#ee-center").click(function(){
+		$(ee_frame + " #ee-center").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "center");
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		});
-		$("#ee-right").click(function(){
+		$(ee_frame + " #ee-right").click(function(){
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_align(ee_selected_text, ee_start, ee_end, ee_textbox, "right");
 				ee_refresh(ee_preview_panel, ee_textbox.val());
@@ -197,7 +198,7 @@
 		});
 		
 		//font.
-		$("#ee-font").click(function(){
+		$(ee_frame + " #ee-font").click(function(){
 			if ( $(".ee-fpanel").length > 0) {
 				$(".ee-fpanel").remove();
 			}else{
