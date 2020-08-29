@@ -301,7 +301,10 @@
 	}
 	
 	function ee_font(text, start, end, ee_textbox, family, color, size){
-		var pattern = "<span style='font-family:"+family.toLowerCase()+";color:"+color.toLowerCase()+";font-size:"+size.toLowerCase()+";'>" + text + "</span>";
+		var pattern = "<span style='font-family:"+
+			family.toLowerCase()+";color:"+color.toLowerCase()+
+			";font-size:"+size.toLowerCase()+
+			";'>" + text + "</span>";
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
