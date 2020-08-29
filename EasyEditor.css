@@ -29,7 +29,7 @@
 	cursor: pointer;
 }
 .ee-frame .right-space {
-	margin-right: 20px;
+	margin-right: 12px;
 }
 .ee-frame .adjust-button {
 	margin-top: 10px;
@@ -38,6 +38,9 @@
 .ee-frame .adjust-font-button {
 	margin-top: 5px;
 	padding-bottom: 0;
+}
+.ee-frame .top-space {
+	padding-top: 3px;
 }
 
 .ee-fpanel {
@@ -70,7 +73,7 @@
 }
 
 .ee-preview {
-	background-color: #f8ecec;
+	background-color: #f8f5f5;
 	font-family: Tahoma;
 	font-size: 10pt;
 	border: 1px solid #000;

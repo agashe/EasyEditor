@@ -28,7 +28,7 @@
 	function ee_init(ee_textbox){
 		/*Add the required icons*/
 		/*EasyEditor use icons from css.gg<https://css.gg | https://github.com/astrit/css.gg> */
-		$('head').append("<link href='https://css.gg/css?=format-left|format-center|format-right|format-color|format-bold|format-italic|format-underline' rel='stylesheet'>");
+		$('head').append("<link href='https://css.gg/css?=format-left|format-center|format-right|format-color|format-bold|format-italic|format-underline|layout-list|link|image' rel='stylesheet'>");
 		
 		/*Define ftrame id. or class!*/
 		var ee_text_id  = 'ee-t-'+ee_textbox.attr("id");
@@ -41,11 +41,15 @@
 			ee_frame_body += "<li title='Italic' id='ee-italic'><i class='gg-format-italic'></i></li>";	
 			ee_frame_body += "<li title='Underline' id='ee-underline' class='right-space'><i class='gg-format-underline'></i></li>";			
 			
-			ee_frame_body += "<li title='Align left' id='ee-left' class='adjust-button'><i class='gg-format-left'></i></li>";	
-			ee_frame_body += "<li title='Align center ' id='ee-center' class='adjust-button'><i class='gg-format-center'></i></li>";	
-			ee_frame_body += "<li title='Align right' id='ee-right' class='right-space adjust-button'><i class='gg-format-right'></i></li>";
+			ee_frame_body += "<li title='Align Left' id='ee-left' class='adjust-button'><i class='gg-format-left'></i></li>";	
+			ee_frame_body += "<li title='Align Center' id='ee-center' class='adjust-button'><i class='gg-format-center'></i></li>";	
+			ee_frame_body += "<li title='Align Right' id='ee-right' class='right-space adjust-button'><i class='gg-format-right'></i></li>";
 
-			ee_frame_body += "<li title='Font' id='ee-font' class='adjust-font-button'><i class='gg-format-color'></i></li>";	
+			ee_frame_body += "<li title='Font' id='ee-font' class='right-space adjust-font-button'><i class='gg-format-color'></i></li>";	
+
+			ee_frame_body += "<li title='Add Link' id='ee-link' class='adjust-font-button'><i class='gg-link'></i></li>";	
+			ee_frame_body += "<li title='Add Image' id='ee-image' class='right-space top-space'><i class='gg-image'></i></li>";	
+			ee_frame_body += "<li title='List Item' id='ee-list' class='right-space adjust-font-button'><i class='gg-layout-list'></i></li>";
 
 			ee_frame_body += "</ul></div>";
 
@@ -163,7 +167,7 @@
 			}
 		});
 
-		/*Get the highlighted text and it's position.*/
+		/*Get the selected text and it's position.*/
 		$(ee_textbox).select(function(){
 			ee_start = this.selectionStart;
 			ee_end = this.selectionEnd;
@@ -232,13 +236,37 @@
 		});
 		
 		//because we can't access new elements with just click
-		$(document).on('click',  'button#ee-font-ok', (function() {
+		$(document).on('click',  ee_frame + ' button#ee-font-ok', (function() {
 			if (ee_selected_text != "" && ee_selected_text != null) {
 				ee_font(ee_selected_text, ee_start, ee_end, ee_textbox, $("#ee-font-family").val(), $("#ee-font-color").val(), $("#ee-font-size").val());
 				ee_refresh(ee_preview_panel, ee_textbox.val());
 				ee_selected_text = "";
 			}
 		}));
+
+		//link.
+		$(ee_frame + " #ee-link").click(function(){
+			if (ee_selected_text != "" && ee_selected_text != null) {
+				ee_link(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
+				ee_selected_text = "";
+			}
+		});
+
+		//image.
+		$(ee_frame + " #ee-image").click(function(){
+			ee_image(ee_textbox[0].selectionStart, ee_textbox);
+			ee_refresh(ee_preview_panel, ee_textbox.val());
+		});
+
+		//list.
+		$(ee_frame + " #ee-list").click(function(){
+			if (ee_selected_text != "" && ee_selected_text != null) {
+				ee_list(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
+				ee_selected_text = "";
+			}
+		});
 	}
 		
 	/*==-Effects!-==*/
@@ -277,12 +305,24 @@
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
+	function ee_link(text, start, end, ee_textbox){
+		var pattern = '<a href="http://">' + text + "</a>";
+		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+	}
+
+	function ee_image(start, ee_textbox){
+		var pattern = '<img src="http://" height="100" width="100" alt="" />';
+		ee_textbox.val(ee_textbox.val().substring(0, start) + pattern + ee_textbox.val().substring(start));
+	}
+
+	function ee_list(text, start, end, ee_textbox){
+		var pattern = '<ul>\n<li>' + text + "</li>\n</ul>";
+		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+	}
+	
 	/**
 	 *ToDo:
-	 *function ee_list(){}
-	 *function ee_link(){}
 	 *function ee_quote(){}
-	 *function ee_image(){}
 	 *function ee_code(){}
 	 *function ee_emoji(){}
 	 */
