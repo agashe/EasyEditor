@@ -29,7 +29,10 @@
 	cursor: pointer;
 }
 .ee-frame .right-space {
-	margin-right: 12px;
+	margin-right: 15px;
+}
+.ee-frame .small-right-space {
+	margin-right: 6px;
 }
 .ee-frame .adjust-button {
 	margin-top: 10px;
@@ -41,6 +44,15 @@
 }
 .ee-frame .top-space {
 	padding-top: 3px;
+}
+.ee-frame .no-top-space {
+	padding-top: 2px;
+}
+.ee-frame .no-right-padding {
+	padding-right: 0;
+}
+.ee-frame .about-button {
+	float: right;
 }
 
 .ee-fpanel {

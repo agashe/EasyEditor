@@ -8,8 +8,9 @@
 
 /**
  *Note:Make sure that you included these files inside your html file:
- *-jquery library <v1.10.0 or later>
- *-easyeditor.css
+ *- jquery library <v1.10.0 or later>
+ *- easyeditor.min.css or easyeditor.css
+ *- easyeditor.min.js or easyeditor.js
  */
 
 (function(){
@@ -27,18 +28,21 @@
 	 */
 	function ee_init(ee_textbox){
 		/*Add the required icons*/
-		/*EasyEditor use icons from css.gg<https://css.gg | https://github.com/astrit/css.gg> */
-		$('head').append("<link href='https://css.gg/css?=format-left|format-center|format-right|format-color|format-bold|format-italic|format-underline|layout-list|link|image' rel='stylesheet'>");
+		/*EasyEditor is using icons from css.gg<https://css.gg | https://github.com/astrit/css.gg> */
+		var icons = ['format-left', 'format-center', 'format-right', 'format-color',
+					 'format-bold', 'format-italic', 'format-underline', 'layout-list',
+					 'link', 'image', 'code-slash', 'quote-o', 'smile-mouth-open', 'info'];
+		$('head').append("<link href='https://css.gg/css?=" + icons.join('|') + "' rel='stylesheet'>");
 		
-		/*Define ftrame id. or class!*/
+		/*Define frame's IDs.*/
 		var ee_text_id  = 'ee-t-'+ee_textbox.attr("id");
 		var ee_frame_id = 'ee-f-'+ee_textbox.attr("id");
 
 		/*Define frame body.*/
 		var ee_frame_body = "<div class='ee-frame' id='"+ee_frame_id+"'><ul>";
 			
-			ee_frame_body += "<li title='Bold' id='ee-bold'><i class='gg-format-bold'></i></li>";	
-			ee_frame_body += "<li title='Italic' id='ee-italic'><i class='gg-format-italic'></i></li>";	
+			ee_frame_body += "<li title='Bold' id='ee-bold' class='no-right-padding'><i class='gg-format-bold'></i></li>";	
+			ee_frame_body += "<li title='Italic' id='ee-italic' class='no-right-padding'><i class='gg-format-italic'></i></li>";	
 			ee_frame_body += "<li title='Underline' id='ee-underline' class='right-space'><i class='gg-format-underline'></i></li>";			
 			
 			ee_frame_body += "<li title='Align Left' id='ee-left' class='adjust-button'><i class='gg-format-left'></i></li>";	
@@ -47,15 +51,20 @@
 
 			ee_frame_body += "<li title='Font' id='ee-font' class='right-space adjust-font-button'><i class='gg-format-color'></i></li>";	
 
-			ee_frame_body += "<li title='Add Link' id='ee-link' class='adjust-font-button'><i class='gg-link'></i></li>";	
-			ee_frame_body += "<li title='Add Image' id='ee-image' class='right-space top-space'><i class='gg-image'></i></li>";	
+			ee_frame_body += "<li title='Link' id='ee-link' class='adjust-font-button'><i class='gg-link'></i></li>";	
+			ee_frame_body += "<li title='Image' id='ee-image' class='small-right-space top-space'><i class='gg-image'></i></li>";	
 			ee_frame_body += "<li title='List Item' id='ee-list' class='right-space adjust-font-button'><i class='gg-layout-list'></i></li>";
+			
+			ee_frame_body += "<li title='Code' id='ee-code' class='no-right-padding'><i class='gg-code-slash'></i></li>";	
+			ee_frame_body += "<li title='Quote' id='ee-quote' class='top-space'><i class='gg-quote-o'></i></li>";	
+			ee_frame_body += "<li title='Emoji' id='ee-emoji' class='no-top-space'><i class='gg-smile-mouth-open'></i></li>";
+			
+			ee_frame_body += "<li title='About' id='ee-about' class='no-top-space about-button'><i class='gg-info'></i></li>";
 
 			ee_frame_body += "</ul></div>";
-
 			ee_frame_body += "<div class='ee-preview' id='"+ee_text_id+"' title='Preview Window'></div>";
 
-		/*Validate the textarea height and width*/
+		/*Validate the textarea height and width.*/
 		if (ee_textbox.height() < 300)
 			ee_textbox.height(300);
 		
@@ -131,8 +140,7 @@
 	 *Refresh the preview panel.
 	 */
 	function ee_refresh(ee_container, content){
-		$(ee_container).html('');
-		$(ee_container).html(content);
+		$(ee_container).html('').html(content);
 	}
 	
 	/**
@@ -267,6 +275,35 @@
 				ee_selected_text = "";
 			}
 		});
+
+		//code.
+		$(ee_frame + " #ee-code").click(function(){
+			if (ee_selected_text != "" && ee_selected_text != null) {
+				ee_code(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
+				ee_selected_text = "";
+			}
+		});
+		
+		//quote.
+		$(ee_frame + " #ee-quote").click(function(){
+			if (ee_selected_text != "" && ee_selected_text != null) {
+				ee_quote(ee_selected_text, ee_start, ee_end, ee_textbox);
+				ee_refresh(ee_preview_panel, ee_textbox.val());
+				ee_selected_text = "";
+			}
+		});
+		
+		//emoji.
+		$(ee_frame + " #ee-emoji").click(function(){
+			ee_emoji(ee_textbox[0].selectionStart, ee_textbox);
+			ee_refresh(ee_preview_panel, ee_textbox.val());
+		});
+		
+		//about.
+		$(ee_frame + " #ee-about").click(function(){
+			window.open('', '_blank');
+		});
 	}
 		
 	/*==-Effects!-==*/
@@ -323,12 +360,20 @@
 		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
 	}
 	
-	/**
-	 *ToDo:
-	 *function ee_quote(){}
-	 *function ee_code(){}
-	 *function ee_emoji(){}
-	 */
+	function ee_code(text, start, end, ee_textbox){
+		var pattern = '<code>' + text + "</code>";
+		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+	}
+	
+	function ee_quote(text, start, end, ee_textbox){
+		var pattern = '<q>' + text + "</q>";
+		ee_textbox.val(ee_textbox.val().replaceBetween(start, end, pattern));
+	}
+
+	function ee_emoji(start, ee_textbox){
+		var pattern = '&#128515;';
+		ee_textbox.val(ee_textbox.val().substring(0, start) + pattern + ee_textbox.val().substring(start));
+	}
 
 	 /*==-Main Function-==*/
 	$.fn.EasyEditor = function(){
