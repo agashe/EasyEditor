@@ -9,8 +9,8 @@
 /**
  *Note:Make sure that you included these files inside your html file:
  *- jquery library <v1.10.0 or later>
- *- easyeditor.min.css or easyeditor.css
- *- easyeditor.min.js or easyeditor.js
+ *- easyeditor.min.css or EasyEditor.css
+ *- easyeditor.min.js or EasyEditor.js
  */
 
 (function(){
