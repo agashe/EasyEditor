@@ -302,7 +302,7 @@
 		
 		//about.
 		$(ee_frame + " #ee-about").click(function(){
-			window.open('', '_blank');
+			window.open('https://github.com/agashe/EasyEditor', '_blank');
 		});
 	}
 		
